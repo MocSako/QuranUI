@@ -1,0 +1,76 @@
+/* True-black flat, warm: elevation by lightness alone, no borders or shadows on
+   surfaces, colour only on the book. The page is the one field of colour. */
+:root {
+  --ground: #0e0d0c;
+  --surface: #181716;
+  --raised: #2a2827;
+  --rule: #1f1d1b;
+  --text: #ffffff;
+  --secondary: #b4b4b4;
+  --meta: #949494;
+  --control: #ffffff;
+  --control-ink: #000000;
+
+  --font: var(--font-ui), "Inter", system-ui, sans-serif;
+  --size-title: 20px;
+  --size-section: 16px;
+  --size-body: 14px;
+  --size-small: 12px;
+
+  --bar-height: 56px;
+  --column: 1148px;
+  --gutter: 29px;
+  --control-height: 36px;
+  --hit: 44px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --fade: 320ms;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--ground);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--size-body);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+@media (max-width: 699px) {
+  :root {
+    --gutter: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --fade: 0ms;
+  }
+}

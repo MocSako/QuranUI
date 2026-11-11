@@ -1,0 +1,420 @@
+.reader {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--ground);
+}
+
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.inner {
+  width: 100%;
+  max-width: calc(var(--column) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* Controls are asked for, not shown: they fade after a pause and on a tap. */
+.bar,
+.foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--ground);
+  transition: opacity var(--fade) var(--ease-out);
+}
+
+.bar[data-visible="false"]:not(:focus-within),
+.foot[data-visible="false"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bar {
+  top: 0;
+  z-index: 9;
+  padding-top: env(safe-area-inset-top);
+}
+
+.bar .inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  min-height: var(--bar-height);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--size-section);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.mark {
+  width: 22px;
+  height: 22px;
+  color: var(--text);
+}
+
+.title {
+  min-width: 0;
+}
+
+.title h1 {
+  font-size: var(--size-section);
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  font-size: var(--size-small);
+  color: var(--meta);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.turns {
+  display: flex;
+  gap: 8px;
+}
+
+.primary,
+.secondary {
+  height: var(--control-height);
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  font-size: var(--size-body);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 120ms var(--ease-out),
+    transform 120ms var(--ease-out);
+}
+
+.primary {
+  background: var(--control);
+  color: var(--control-ink);
+}
+
+.primary:hover:not(:disabled) {
+  background: #e6e6e6;
+}
+
+.secondary {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.secondary:hover:not(:disabled),
+.secondary[aria-pressed="true"] {
+  background: var(--raised);
+}
+
+.primary:active:not(:disabled),
+.secondary:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.primary:disabled,
+.secondary:disabled {
+  background: var(--surface);
+  color: #6f6c69;
+  cursor: default;
+}
+
+.foot {
+  bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.foot .inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  min-height: 44px;
+  font-size: var(--size-small);
+}
+
+.hint {
+  color: var(--secondary);
+}
+
+.credit {
+  color: var(--meta);
+}
+
+.credit a {
+  color: inherit;
+  white-space: nowrap;
+}
+
+/* English of the open surah, under the book so the pages stay fully visible. */
+.panel {
+  position: relative;
+  z-index: 2;
+  flex: 0 1 auto;
+  max-height: 38%;
+  overflow: auto;
+  background: var(--surface);
+}
+
+.reader[data-english="true"] .foot {
+  position: relative;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.panel .inner {
+  padding-top: 16px;
+  padding-bottom: 18px;
+}
+
+.panel h2 {
+  margin: 0;
+  font-size: var(--size-small);
+  font-weight: 600;
+  color: var(--meta);
+}
+
+.basmala {
+  margin-top: 8px;
+  color: var(--secondary);
+}
+
+.panel ol {
+  margin: 8px 0 0;
+  padding-left: 1.25em;
+}
+
+.panel li {
+  margin-bottom: 8px;
+  font-size: var(--size-section);
+  line-height: 1.5;
+  color: var(--secondary);
+}
+
+.panel li::marker {
+  color: var(--meta);
+}
+
+/* The text of the open pages, for screen readers; the 3D book is a layer over it. */
+.text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.index {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  background: var(--ground);
+  overflow: auto;
+  padding: calc(var(--bar-height) + env(safe-area-inset-top)) var(--gutter) 32px;
+}
+
+.indexSheet {
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding-bottom: 48px;
+}
+
+.indexHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.indexHead h2 {
+  margin: 0;
+  font-size: var(--size-title);
+  font-weight: 600;
+}
+
+.indexHead p {
+  margin-top: 2px;
+  color: var(--meta);
+  font-size: var(--size-small);
+}
+
+.indexSearch {
+  width: 100%;
+  height: var(--control-height);
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--size-body);
+}
+
+.indexSearch::placeholder {
+  color: var(--meta);
+}
+
+.juz {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+  margin: 16px 0;
+}
+
+.juzChip {
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--secondary);
+  font: inherit;
+  font-size: var(--size-small);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.juzChip:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+
+.juzChip[aria-current="true"] {
+  background: var(--control);
+  color: var(--control-ink);
+}
+
+.pageJump {
+  width: 100%;
+  height: var(--control-height);
+  margin-bottom: 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--control);
+  color: var(--control-ink);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.surahs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.surah {
+  display: grid;
+  grid-template-columns: 2.5em 1fr auto;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 4px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.surah:hover,
+.surah[aria-current="true"] {
+  background: var(--surface);
+}
+
+.surahN {
+  color: var(--meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.surahName {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-weight: 500;
+}
+
+.surahName em {
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--size-small);
+  color: var(--meta);
+}
+
+.surahPage {
+  color: var(--meta);
+  font-size: var(--size-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.indexEmpty {
+  margin-top: 24px;
+  color: var(--meta);
+}
+
+.panel article + article {
+  margin-top: 20px;
+}
+
+@media (pointer: coarse) {
+  .primary,
+  .secondary {
+    height: var(--hit);
+  }
+}
+
+@media (max-width: 699px) {
+  .bar .inner {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "brand turns"
+      "title title";
+    row-gap: 4px;
+    padding-top: 8px;
+    padding-bottom: 10px;
+  }
+
+  .brand {
+    grid-area: brand;
+  }
+
+  .turns {
+    grid-area: turns;
+  }
+
+  .title {
+    grid-area: title;
+  }
+
+  .foot .inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding-top: 8px;
+    padding-bottom: 10px;
+  }
+
+  .turns {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
